@@ -1,0 +1,5 @@
+mode
+-easy flip for a sec after new game
+-normal 
+-hard swap two card'position after flipping
+-extremely hard matched cards will not disappear(still flipable) but become a white card
