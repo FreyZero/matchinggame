@@ -36,7 +36,18 @@ export default {
             //     status : 0
             // },
             cardList : [],
-            imgList: ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10']
+            imgList : ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10'],
+            selectingState : {
+                firstCard :{
+                    position : 0,
+                    cardImg : 'kaede0'
+                },
+                secondCard :{
+                    position : 0,
+                    cardImg : 'kaede0'
+                },
+                faceupCard : 0
+            }
         }
     },
     methods:{
@@ -54,6 +65,7 @@ export default {
         },
         newGame() {
             this.flipBackAll()
+            this.selectingState.faceupCard = 0
             let imgRand = ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10']
             let position = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
             let randNum = 0
