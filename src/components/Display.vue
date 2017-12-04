@@ -1,31 +1,32 @@
 <template>
-  <div>
-    <div class="col-sm-12" >
-        <app-card v-for="(card,index) in cardList" :key="index" >
-            <img :src="getImgUrl(card.currentImg)" @click="flipCard(index)" height="200px" width="auto">
-        </app-card>
-    </div>
     <div>
-        {{text}}
+        <div class="col-sm-12" >
+        <app-card v-for="(card,index) in cardList" :key="index" >
+            <img id="card" :src="getImgUrl(card.currentImg)" @click="flipCard(index)" >
+        </app-card>
+        </div>
+        <div>
+            {{text}}
+        </div>
+        <button class="btn btn-danger" @click="newGame"> 
+            New Game
+        </button>
+        <button class="btn btn-info" @click="flipBackAll">
+            Flip All
+        </button>
     </div>
-    <button class="btn btn-danger" @click="newGame"> 
-        New Game
-    </button>
-    <button class="btn btn-info" @click="flipBackAll">
-        Flip All
-    </button>
-    
-  </div>
 </template>
 
-<<script>
+<script>
 import Card from './Card.vue'
+import ConsoleBar from './Console.vue'
 
 const BACK_CARD = "backcard"
 
 export default {
     components: {
-        appCard: Card
+        appCard: Card,
+        appConsole :  ConsoleBar
     },
     data: function () {
         return{
@@ -47,7 +48,9 @@ export default {
                     cardImg : 'kaede0'
                 },
                 faceupCard : 0
-            }
+            },
+            score : 0,
+            times : 0
         }
     },
     methods:{
@@ -114,3 +117,25 @@ export default {
 
 }
 </script>
+
+<style scoped>
+    @media screen and (min-width: 768px){
+        #card{
+            height: 100px;
+            width: auto;
+        }  
+    }
+    @media screen and (min-width: 1200px){
+        #card{
+            height: 140px;
+            width: auto;
+        }  
+    }
+    @media screen and (min-width: 1600px){
+        #card{
+            height: 200px;
+            width: auto;
+        }  
+    }
+</style>
+
