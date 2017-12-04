@@ -119,9 +119,15 @@ export default {
 </script>
 
 <style scoped>
+    @media screen and (min-width: 250px){
+        #card{
+            height: 200px;
+            width: auto;
+        }  
+    }
     @media screen and (min-width: 768px){
         #card{
-            height: 100px;
+            height: 180px;
             width: auto;
         }  
     }
