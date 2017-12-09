@@ -1,22 +1,25 @@
 <template>
     <div>
         <div class="col-sm-12" >
-            <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" ref="childCard">
-                <img id="card" :src="getImgUrl(card.realImg)" @click="flipCard(index)" >
-            </app-card>
+            <div class="">
+                <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" ref="childCard">
+                    <img id="card" :src="getImgUrl(card.realImg)" @click="flipCard(index)" >
+                </app-card>
+            </div>
         </div>
-        <div>
-            {{text}}
+        <div class="text-center"> 
+            <div class="btn-group">
+                <button class="btn btn-danger" @click="newGame"> 
+                    New Game
+                </button>
+                <button class="btn btn-info" @click="flipBackAll">
+                    Flip All
+                </button>
+                <button class="btn btn-warning" @click="callToChild">
+                    Call Child
+                </button>
+            </div>
         </div>
-        <button class="btn btn-danger" @click="newGame"> 
-            New Game
-        </button>
-        <button class="btn btn-info" @click="flipBackAll">
-            Flip All
-        </button>
-        <button class="btn btn-warning" @click="callToChild">
-            Call Child
-        </button>
     </div>
 </template>
 
@@ -33,7 +36,6 @@ export default {
     },
     data: function () {
         return{
-            text : "Original",
             // cardObject : {              ***can't use object template for push to array because object will refer the same reference (chage one wil change all other)
             //     currentImg : "backcard", ****When you add the object to the array, it's only a reference to the object that is added.
             //     realImg : "kaede1",
@@ -41,7 +43,7 @@ export default {
             // },
             cardList : [],
             imgList : ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10'],
-            selectingState : {
+            selectingCard : {
                 firstCard :{
                     position : 0,
                     cardImg : 'kaede0'
@@ -58,8 +60,7 @@ export default {
         }
     },
     methods:{
-      flipCard: function (index) {
-          this.text = (this.text == "Original" ? "chg" : "Original")
+        flipCard: function (index) {
           if (this.cardList[index].status == 0) {
             this.cardList[index].currentImg = this.cardList[index].realImg
             this.cardList[index].status = 1
@@ -67,13 +68,11 @@ export default {
             this.cardList[index].currentImg = "backcard"
             this.cardList[index].status = 0
           }
-        //   console.log(index)
-        //   console.log(this.cardList)
         },
         newGame() {
             this.flipBackAll()
             this.isFacing = true
-            this.selectingState.faceupCard = 0
+            this.selectingCard.faceupCard = 0
             let imgRand = ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10']
             let position = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
             let randNum = 0
@@ -109,7 +108,10 @@ export default {
             });
         },
         callToChild() {
-            this.$refs.childCard[0].flipBack()
+            this.$refs.childCard.forEach(function(child, index) {
+                child.flipBack()
+            })
+            // this.$refs.childCard[i].flipBack()
             console.log(this.$refs.childCard[0])
         }
     },

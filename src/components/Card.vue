@@ -39,6 +39,7 @@
         cursor: pointer;
         border-color: #ddd;
         padding: 5px;
+        /* pointer-events: none; */
     }
     
     .card:hover {

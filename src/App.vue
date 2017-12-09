@@ -1,11 +1,13 @@
-<<template>
-  <div class="container">
+<template>
+  <div>
     <app-header></app-header>
-    <app-display></app-display>
+    <div class="container">
+      <app-display></app-display>
+    </div>
   </div>
 </template>
 
-<<script>
+<script>
     import Header from "./components/Header.vue"
     import Display from './components/Display.vue'
 
@@ -16,3 +18,5 @@
       }
     }
 </script>
+
+
