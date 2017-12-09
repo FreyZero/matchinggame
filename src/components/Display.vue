@@ -1,10 +1,5 @@
 <template>
     <div>
-        <transition name="fade">
-            <div class="alert alert-warning text-center" v-if="show">
-                Transition Here
-            </div>
-        </transition>
         <div class="col-sm-12" >
             <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" >
                 <img id="card" :src="getImgUrl(card.realImg)" @click="flipCard(index)" >
@@ -19,7 +14,6 @@
         <button class="btn btn-info" @click="flipBackAll">
             Flip All
         </button>
-        
     </div>
 </template>
 
@@ -57,7 +51,6 @@ export default {
             },
             score : 0,
             times : 0,
-            show : false,
             isFacing : false
         }
     },
@@ -71,12 +64,12 @@ export default {
             this.cardList[index].currentImg = "backcard"
             this.cardList[index].status = 0
           }
-          console.log(index)
-          console.log(this.cardList)
+        //   console.log(index)
+        //   console.log(this.cardList)
         },
         newGame() {
-            this.show = !this.show
             this.flipBackAll()
+            this.isFacing = true
             this.selectingState.faceupCard = 0
             let imgRand = ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10']
             let position = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
@@ -97,7 +90,7 @@ export default {
                 }
                 imgRand[randNum] = "kaede0"
             }
-            console.log('NEW GAME')
+            // console.log('NEW GAME')
         },
         getImgUrl(img) {
           var images = require.context('../assets/images', false, /\.jpg$/)

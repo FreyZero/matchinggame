@@ -10,7 +10,6 @@
             </transition>
         </div>
     </div>
-    <button class="btn btn-danger" @click="filpImg()">{{isShow}}</button>
   </div>
 </template>
 
@@ -18,7 +17,7 @@
     export default {
         data: function () {
             return {
-                showing : false
+                showing : this.isShow
             }
         },
         props : ['isShow'],
@@ -26,6 +25,9 @@
             filpImg() {
                 this.showing = !this.showing
                 console.log(this.isShow)
+            },
+            filpBack() {
+                this.showing = false
             }
         }
     }
@@ -50,7 +52,7 @@
     }
 
     .flip-enter, .flip-leave-to {
-        transform: scaleY(0) translateZ(0);
+        transform: scaleX(0) translateZ(0);
         opacity: 0;
     }
 </style>
