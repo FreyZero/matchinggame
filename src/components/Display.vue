@@ -1,9 +1,14 @@
 <template>
     <div>
+        <transition name="fade">
+            <div class="alert alert-warning text-center" v-if="show">
+                Transition Here
+            </div>
+        </transition>
         <div class="col-sm-12" >
-        <app-card v-for="(card,index) in cardList" :key="index" >
-            <img id="card" :src="getImgUrl(card.currentImg)" @click="flipCard(index)" >
-        </app-card>
+            <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" >
+                <img id="card" :src="getImgUrl(card.realImg)" @click="flipCard(index)" >
+            </app-card>
         </div>
         <div>
             {{text}}
@@ -14,6 +19,7 @@
         <button class="btn btn-info" @click="flipBackAll">
             Flip All
         </button>
+        
     </div>
 </template>
 
@@ -50,7 +56,9 @@ export default {
                 faceupCard : 0
             },
             score : 0,
-            times : 0
+            times : 0,
+            show : false,
+            isFacing : false
         }
     },
     methods:{
@@ -67,6 +75,7 @@ export default {
           console.log(this.cardList)
         },
         newGame() {
+            this.show = !this.show
             this.flipBackAll()
             this.selectingState.faceupCard = 0
             let imgRand = ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10']
@@ -118,7 +127,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
     @media screen and (min-width: 250px){
         #card{
             height: 200px;
@@ -142,6 +151,12 @@ export default {
             height: 200px;
             width: auto;
         }  
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 1s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0
     }
 </style>
 
