@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="col-sm-12" >
-            <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" >
+            <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" ref="childCard">
                 <img id="card" :src="getImgUrl(card.realImg)" @click="flipCard(index)" >
             </app-card>
         </div>
@@ -13,6 +13,9 @@
         </button>
         <button class="btn btn-info" @click="flipBackAll">
             Flip All
+        </button>
+        <button class="btn btn-warning" @click="callToChild">
+            Call Child
         </button>
     </div>
 </template>
@@ -104,6 +107,10 @@ export default {
                 card.currentImg = "backcard"
                 card.status = 0
             });
+        },
+        callToChild() {
+            this.$refs.childCard[0].flipBack()
+            console.log(this.$refs.childCard[0])
         }
     },
     beforeMount: function () {

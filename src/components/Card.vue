@@ -1,7 +1,7 @@
 <template>
   <div class="col-xs-6 col-md-3">
     <div>
-        <div class="card text-center" @click="filpImg()">
+        <div class="card text-center" @click="flipImg()">
             <transition  name="flip" mode="out-in">
                 <div v-if="showing" key="front">
                     <slot></slot>
@@ -22,12 +22,13 @@
         },
         props : ['isShow'],
         methods :{
-            filpImg() {
+            flipImg() {
                 this.showing = !this.showing
                 console.log(this.isShow)
             },
-            filpBack() {
+            flipBack() {
                 this.showing = false
+                console.log(this.showing)
             }
         }
     }
