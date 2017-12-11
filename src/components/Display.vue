@@ -3,21 +3,24 @@
         <div class="col-sm-12" >
             <div class="">
                 <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" ref="childCard">
-                    <img id="card" :src="getImgUrl(card.realImg)" @click="flipCard(index)" >
+                    <img id="card" :src="getImgUrl(card.currentImg)" @click="flipCard(index)" >
                 </app-card>
-            </div>
+            </div>  
         </div>
         <div class="text-center"> 
             <div class="btn-group">
-                <button class="btn btn-danger" @click="newGame"> 
+                <button class="btn btn-danger" @click="newGame()"> 
                     New Game
                 </button>
-                <button class="btn btn-info" @click="flipBackAll">
+                <button class="btn btn-info" @click="flipBackAll()">
                     Flip All
                 </button>
-                <button class="btn btn-warning" @click="callToChild">
+                <button class="btn btn-warning" @click="callToChild()">
                     Call Child
                 </button>
+                <span class="btn btn-default" >
+                    Score : {{score}} / 8
+                </span>
             </div>
         </div>
     </div>
@@ -46,11 +49,11 @@ export default {
             selectingCard : {
                 firstCard :{
                     position : 0,
-                    cardImg : 'kaede0'
+                    cardImg : ''
                 },
                 secondCard :{
                     position : 0,
-                    cardImg : 'kaede0'
+                    cardImg : ''
                 },
                 faceupCard : 0
             },
@@ -60,18 +63,36 @@ export default {
         }
     },
     methods:{
-        flipCard: function (index) {
-          if (this.cardList[index].status == 0) {
-            this.cardList[index].currentImg = this.cardList[index].realImg
-            this.cardList[index].status = 1
-          } else if (this.cardList[index].status == 1) {
+        flipCard(index) {
+        //   if (this.cardList[index].status == 0) {                                flip freely
+        //     this.cardList[index].currentImg = this.cardList[index].realImg
+        //     this.cardList[index].status = 1
+        //   } else if (this.cardList[index].status == 1) {
+        //     this.cardList[index].currentImg = "backcard"
+        //     this.cardList[index].status = 0
+        //   }
+            if (this.cardList[index].status == 0) {
+                this.cardList[index].status = 1
+                this.cardList[index].currentImg = this.cardList[index].realImg
+                console.log(this.selectingCard)
+                if (this.selectingCard.firstCard.cardImg == '') {
+                    this.selectingCard.firstCard.position = index
+                    this.selectingCard.firstCard.cardImg = this.cardList[index].realImg
+                } else {
+                    this.selectingCard.secondCard.position = index
+                    this.selectingCard.secondCard.cardImg = this.cardList[index].realImg
+
+                    // this.clearState(this.calculateCard())
+                }
+            } else if (this.cardList[index].status == 1) {
             this.cardList[index].currentImg = "backcard"
             this.cardList[index].status = 0
           }
+            
         },
         newGame() {
             this.flipBackAll()
-            this.isFacing = true
+            this.isFacing = false
             this.selectingCard.faceupCard = 0
             let imgRand = ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10']
             let position = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
@@ -111,8 +132,16 @@ export default {
             this.$refs.childCard.forEach(function(child, index) {
                 child.flipBack()
             })
-            // this.$refs.childCard[i].flipBack()
+            this.cardList.forEach(function(card, index) {
+                card.status = 0
+            })
             console.log(this.$refs.childCard[0])
+        },
+        calculateCard() {
+
+        },
+        clearState() {
+
         }
     },
     beforeMount: function () {
@@ -123,6 +152,7 @@ export default {
                 status : 0
             })
         }
+        this.newGame()
         console.log(this.cardList)
     }
 
@@ -153,6 +183,13 @@ export default {
             height: 200px;
             width: auto;
         }  
+    }
+    img{
+        border-radius: 10px;
+    }
+    .border{
+        border-color: lightseagreen;
+        border-style: solid;
     }
     .fade-enter-active, .fade-leave-active {
         transition: opacity 1s

@@ -6,7 +6,9 @@
                 <div v-if="showing" key="front">
                     <slot></slot>
                 </div>
-                <img id="card" key="back" v-else src="../assets/Images/backcard.jpg">
+                <div v-else key="back">
+                    <slot></slot>
+                </div>
             </transition>
         </div>
     </div>
@@ -40,8 +42,9 @@
         border-color: #ddd;
         padding: 5px;
         /* pointer-events: none; */
+        filter: drop-shadow(0px 0px 10px #00cc66);
+        border-radius: 7px;
     }
-    
     .card:hover {
         background-color: #ffe2e2;
     }
