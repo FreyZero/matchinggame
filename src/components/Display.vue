@@ -2,7 +2,7 @@
     <div>
         <div class="col-sm-12" >
             <div class="">
-                <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" ref="childCard">
+                <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" :status="card.status" ref="childCard">
                     <img id="card" :src="getImgUrl(card.currentImg)" @click="flipCard(index)" >
                 </app-card>
             </div>  
@@ -134,6 +134,7 @@ export default {
             })
             this.cardList.forEach(function(card, index) {
                 card.status = 0
+                card.currentImg = BACK_CARD
             })
             console.log(this.$refs.childCard[0])
         },

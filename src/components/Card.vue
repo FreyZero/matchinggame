@@ -1,7 +1,7 @@
 <template>
   <div class="col-xs-6 col-md-3">
     <div>
-        <div class="card text-center" @click="flipImg()">
+        <div class="card text-center" @click="flipImg()" :style="statusColor">
             <transition  name="flip" mode="out-in">
                 <div v-if="showing" key="front">
                     <slot></slot>
@@ -10,6 +10,7 @@
                     <slot></slot>
                 </div>
             </transition>
+            {{ status }}
         </div>
     </div>
   </div>
@@ -22,7 +23,7 @@
                 showing : this.isShow
             }
         },
-        props : ['isShow'],
+        props : ['isShow','status'],
         methods :{
             flipImg() {
                 this.showing = !this.showing
@@ -31,6 +32,18 @@
             flipBack() {
                 this.showing = false
                 console.log(this.showing)
+            }
+        },
+        computed :{
+            statusColor() {
+                if (this.status == 0){
+                    return {filter: "drop-shadow(0px 0px 10px #00cc66)"}
+                } else if (this.status == 1){
+                    return {filter: "drop-shadow(0px 0px 10px #ffff80)", "pointer-events": "none"}
+                } else {
+                    return {filter: "drop-shadow(0px 0px 10px #ff6666)", "pointer-events": "none"}
+                }
+                
             }
         }
     }
@@ -42,7 +55,7 @@
         border-color: #ddd;
         padding: 5px;
         /* pointer-events: none; */
-        filter: drop-shadow(0px 0px 10px #00cc66);
+        /* filter: drop-shadow(0px 0px 10px #00cc66); */
         border-radius: 7px;
     }
     .card:hover {
