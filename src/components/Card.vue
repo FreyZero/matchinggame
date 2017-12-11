@@ -1,7 +1,7 @@
 <template>
   <div class="col-xs-6 col-md-3">
     <div>
-        <div class="card text-center" @click="flipImg()" :style="statusColor">
+        <div class="card text-center" :style="statusColor">
             <transition  name="flip" mode="out-in">
                 <div v-if="showing" key="front">
                     <slot></slot>
@@ -27,20 +27,23 @@
         methods :{
             flipImg() {
                 this.showing = !this.showing
-                console.log(this.isShow)
+                // console.log(this.isShow)
             },
             flipBack() {
                 this.showing = false
-                console.log(this.showing)
+                // console.log(this.showing)
             }
         },
         computed :{
             statusColor() {
                 if (this.status == 0){
+                    this.showing = false
                     return {filter: "drop-shadow(0px 0px 10px #00cc66)"}
                 } else if (this.status == 1){
+                    this.showing = true
                     return {filter: "drop-shadow(0px 0px 10px #ffff80)", "pointer-events": "none"}
                 } else {
+                    this.showing = true
                     return {filter: "drop-shadow(0px 0px 10px #ff6666)", "pointer-events": "none"}
                 }
                 

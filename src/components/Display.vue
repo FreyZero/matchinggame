@@ -48,14 +48,14 @@ export default {
             imgList : ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10'],
             selectingCard : {
                 firstCard :{
-                    position : 0,
+                    position : -1,
                     cardImg : ''
                 },
                 secondCard :{
-                    position : 0,
+                    position : -1,
                     cardImg : ''
                 },
-                faceupCard : 0
+                matchedCard : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
             },
             score : 0,
             times : 0,
@@ -71,24 +71,27 @@ export default {
         //     this.cardList[index].currentImg = "backcard"
         //     this.cardList[index].status = 0
         //   }
-            if (this.cardList[index].status == 0) {
+            if (this.times == 0) {
+                this.times++                
+                //manage display
                 this.cardList[index].status = 1
                 this.cardList[index].currentImg = this.cardList[index].realImg
-                console.log(this.selectingCard)
-                if (this.selectingCard.firstCard.cardImg == '') {
-                    this.selectingCard.firstCard.position = index
-                    this.selectingCard.firstCard.cardImg = this.cardList[index].realImg
-                } else {
-                    this.selectingCard.secondCard.position = index
-                    this.selectingCard.secondCard.cardImg = this.cardList[index].realImg
-
-                    // this.clearState(this.calculateCard())
-                }
-            } else if (this.cardList[index].status == 1) {
-            this.cardList[index].currentImg = "backcard"
-            this.cardList[index].status = 0
-          }
-            
+                //manage state
+                this.selectingCard.firstCard.position = index
+                this.selectingCard.firstCard.cardImg = this.cardList[index].realImg
+                console.log(this.selectingCard.firstCard.cardImg)
+            } else if (this.times == 1) {
+                this.times++
+                //manage display
+                this.cardList[index].status = 1
+                this.cardList[index].currentImg = this.cardList[index].realImg
+                //manage state
+                this.selectingCard.secondCard.position = index
+                this.selectingCard.secondCard.cardImg = this.cardList[index].realImg
+                // console.log(this.selectingCard.secondCard.cardImg)
+                this.afterMatching()
+                this.clearState()
+            }
         },
         newGame() {
             this.flipBackAll()
@@ -123,10 +126,6 @@ export default {
             return (this.imgList[Math.floor(Math.random() * 10)])
         },
         flipBackAll() {
-            this.cardList.forEach(card => {
-                card.currentImg = "backcard"
-                card.status = 0
-            });
         },
         callToChild() {
             this.$refs.childCard.forEach(function(child, index) {
@@ -136,13 +135,39 @@ export default {
                 card.status = 0
                 card.currentImg = BACK_CARD
             })
-            console.log(this.$refs.childCard[0])
         },
-        calculateCard() {
-
+        callToSpecificChild() {
+            this.selectingCard.matchedCard.forEach((num,index) => {
+                this.cardList[num].status = 0
+                this.cardList[num].currentImg = BACK_CARD
+                this.$refs.childCard[num].flipBack()
+                // console.log(num + '  AND  ' + index)
+            })
+            // console.log(this.$refs.childCard)
+        },
+        afterMatching() {
+            let index1 = this.selectingCard.matchedCard.indexOf(this.selectingCard.firstCard.position)
+            let index2 = this.selectingCard.matchedCard.indexOf(this.selectingCard.secondCard.position)
+            console.log(this.selectingCard.matchedCard)
+            if (this.selectingCard.firstCard.cardImg == this.selectingCard.secondCard.cardImg) {
+                this.score++
+                this.selectingCard.matchedCard.splice(index1,1)
+                this.selectingCard.matchedCard.splice(index2,1)
+                this.cardList[this.selectingCard.firstCard.position].status = 2
+                this.cardList[this.selectingCard.secondCard.position].status = 2
+            } else {
+                setTimeout(()=>{
+                    this.callToSpecificChild()
+                }, 1300);
+            }
+            console.log(this.selectingCard.matchedCard)
         },
         clearState() {
-
+            this.selectingCard.firstCard.cardImg = ''
+            this.selectingCard.firstCard.position = -1
+            this.selectingCard.secondCard.cardImg = ''
+            this.selectingCard.secondCard.position = -1
+            this.times = 0
         }
     },
     beforeMount: function () {
@@ -154,7 +179,7 @@ export default {
             })
         }
         this.newGame()
-        console.log(this.cardList)
+        // console.log(this.cardList)
     }
 
 }
