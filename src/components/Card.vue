@@ -10,7 +10,6 @@
                     <slot></slot>
                 </div>
             </transition>
-            {{ status }}
         </div>
     </div>
   </div>
@@ -60,6 +59,7 @@
         /* pointer-events: none; */
         /* filter: drop-shadow(0px 0px 10px #00cc66); */
         border-radius: 7px;
+        margin-bottom: 10px;
     }
     .card:hover {
         background-color: #ffe2e2;

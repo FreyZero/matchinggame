@@ -147,11 +147,13 @@ export default {
         },
         afterMatching() {
             let index1 = this.selectingCard.matchedCard.indexOf(this.selectingCard.firstCard.position)
-            let index2 = this.selectingCard.matchedCard.indexOf(this.selectingCard.secondCard.position)
+            let index2 = 0
+            console.log(index1 + " & " + index2)
             console.log(this.selectingCard.matchedCard)
             if (this.selectingCard.firstCard.cardImg == this.selectingCard.secondCard.cardImg) {
                 this.score++
                 this.selectingCard.matchedCard.splice(index1,1)
+                index2 = this.selectingCard.matchedCard.indexOf(this.selectingCard.secondCard.position)
                 this.selectingCard.matchedCard.splice(index2,1)
                 this.cardList[this.selectingCard.firstCard.position].status = 2
                 this.cardList[this.selectingCard.secondCard.position].status = 2

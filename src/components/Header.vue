@@ -12,3 +12,8 @@ export default {
 }
 </script>
 
+<style scoped>
+    h3{
+        font-family: "Arizonia", cursive;
+    }
+</style>
