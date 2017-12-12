@@ -2,9 +2,11 @@
     <div>
         <div class="col-sm-12" >
             <div class="">
-                <app-card v-for="(card,index) in cardList" :key="index" :isShow="isFacing" :status="card.status" ref="childCard">
-                    <img id="card" :src="getImgUrl(card.currentImg)" @click="flipCard(index)" >
-                </app-card>
+                <transition-group name="swap">
+                    <app-card v-for="(card,index) in cardList" :key="card.id" :isShow="isFacing" :status="card.status" ref="childCard">
+                        <img id="card" :src="getImgUrl(card.currentImg)" @click="flipCard(index)" >
+                    </app-card>
+                </transition-group>
             </div>  
         </div>
         <div class="text-center"> 
@@ -12,14 +14,19 @@
                 <button class="btn btn-danger" @click="newGame()"> 
                     New Game
                 </button>
-                <button class="btn btn-info" @click="flipBackAll()">
-                    Flip All
+                <button class="btn btn-info" @click="shuffle()">
+                    Swap All
                 </button>
                 <button class="btn btn-warning" @click="callToChild()">
                     Call Child
                 </button>
+            </div>
+            <div class="btn-group">
                 <span class="btn btn-default" >
                     Score : {{score}} / 8
+                </span>
+                <span class="btn btn-default" >
+                    Times : 0
                 </span>
             </div>
         </div>
@@ -29,6 +36,7 @@
 <script>
 import Card from './Card.vue'
 import ConsoleBar from './Console.vue'
+import _ from 'underscore'
 
 const BACK_CARD = "backcard"
 
@@ -170,11 +178,17 @@ export default {
             this.selectingCard.secondCard.cardImg = ''
             this.selectingCard.secondCard.position = -1
             this.times = 0
+        },
+        shuffle() {
+            console.log(this.cardList)
+            this.cardList = _.shuffle(this.cardList)
+            console.log(this.cardList)
         }
     },
     beforeMount: function () {
         for (let index = 0; index < 16; index++) {
             this.cardList.push({
+                id : index,
                 currentImg : "backcard",
                 realImg : this.initImg(),
                 status : 0
@@ -224,6 +238,9 @@ export default {
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0
+    }
+    .swap-move{
+        transition: transform 1s;
     }
 </style>
 

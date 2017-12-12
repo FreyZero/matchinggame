@@ -76,4 +76,5 @@
         transform: scaleX(0) translateZ(0);
         opacity: 0;
     }
+    
 </style>
