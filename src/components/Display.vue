@@ -102,9 +102,13 @@ export default {
             }
         },
         newGame() {
-            this.flipBackAll()
+            this.loadPage()
+            this.callToChild()
+            this.clearState()
+            this.shuffle()
+        },
+        loadPage() {
             this.isFacing = false
-            this.selectingCard.faceupCard = 0
             let imgRand = ['kaede1','kaede2','kaede3','kaede4','kaede5','kaede6','kaede7','kaede8','kaede9','kaede10']
             let position = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
             let randNum = 0
@@ -124,7 +128,6 @@ export default {
                 }
                 imgRand[randNum] = "kaede0"
             }
-            // console.log('NEW GAME')
         },
         getImgUrl(img) {
           var images = require.context('../assets/images', false, /\.jpg$/)
@@ -132,8 +135,6 @@ export default {
         },
         initImg() {
             return (this.imgList[Math.floor(Math.random() * 10)])
-        },
-        flipBackAll() {
         },
         callToChild() {
             this.$refs.childCard.forEach(function(child, index) {
@@ -178,6 +179,7 @@ export default {
             this.selectingCard.secondCard.cardImg = ''
             this.selectingCard.secondCard.position = -1
             this.times = 0
+            // this.selectingCard.matchedCard = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
         },
         shuffle() {
             console.log(this.cardList)
@@ -194,7 +196,7 @@ export default {
                 status : 0
             })
         }
-        this.newGame()
+        this.loadPage()
         // console.log(this.cardList)
     }
 
@@ -216,7 +218,7 @@ export default {
     }
     @media screen and (min-width: 1200px){
         #card{
-            height: 140px;
+            height: 130px;
             width: auto;
         }  
     }
