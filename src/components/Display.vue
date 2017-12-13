@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :style="parentUI">
         <div class="col-sm-12" >
             <div class="">
                 <transition-group name="swap">
@@ -67,7 +67,8 @@ export default {
             },
             score : 0,
             times : 0,
-            isFacing : false
+            isFacing : false,
+            parentUI : {}
         }
     },
     methods:{
@@ -88,6 +89,7 @@ export default {
                 this.selectingCard.firstCard.position = index
                 this.selectingCard.firstCard.cardImg = this.cardList[index].realImg
             } else if (this.times == 1) {
+                this.parentUI = {"pointer-events": "none"}
                 this.times++
                 //manage display
                 this.cardList[index].status = 1
@@ -106,6 +108,7 @@ export default {
             this.loadPage()
             this.clearState()
             this.selectingCard.matchedCard = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+            this.score = 0
             
         },
         loadPage() {
@@ -150,7 +153,7 @@ export default {
             this.selectingCard.matchedCard.forEach((num,index) => {
                 this.cardList[num].status = 0
                 this.cardList[num].currentImg = BACK_CARD
-                this.$refs.childCard[this.cardList[num].id].flipBack()
+                this.$refs.childCard[this.cardList[num].id].flipBack()  //when shuffle index of cardList is changed so childCard's index should refer to cardList
                 console.log(num + '  AND  ' + index)
             })
             // console.log(this.$refs.childCard)
@@ -169,6 +172,7 @@ export default {
             } else {
                 setTimeout(()=>{
                     this.callToSpecificChild()
+                    this.parentUI = {}
                 }, 1300);
             }
             console.log(this.selectingCard.matchedCard)
@@ -241,5 +245,6 @@ export default {
     .swap-move{
         transition: transform 1s;
     }
+    
 </style>
 
