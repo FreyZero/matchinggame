@@ -169,6 +169,7 @@ export default {
                 this.selectingCard.matchedCard.splice(index2,1)
                 this.cardList[this.selectingCard.firstCard.position].status = 2
                 this.cardList[this.selectingCard.secondCard.position].status = 2
+                this.parentUI = {}
             } else {
                 setTimeout(()=>{
                     this.callToSpecificChild()
