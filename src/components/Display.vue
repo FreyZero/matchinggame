@@ -87,7 +87,6 @@ export default {
                 //manage state
                 this.selectingCard.firstCard.position = index
                 this.selectingCard.firstCard.cardImg = this.cardList[index].realImg
-                console.log(this.selectingCard.firstCard.cardImg)
             } else if (this.times == 1) {
                 this.times++
                 //manage display
@@ -102,10 +101,12 @@ export default {
             }
         },
         newGame() {
-            this.loadPage()
             this.callToChild()
-            this.clearState()
             this.shuffle()
+            this.loadPage()
+            this.clearState()
+            this.selectingCard.matchedCard = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+            
         },
         loadPage() {
             this.isFacing = false
@@ -149,15 +150,14 @@ export default {
             this.selectingCard.matchedCard.forEach((num,index) => {
                 this.cardList[num].status = 0
                 this.cardList[num].currentImg = BACK_CARD
-                this.$refs.childCard[num].flipBack()
-                // console.log(num + '  AND  ' + index)
+                this.$refs.childCard[this.cardList[num].id].flipBack()
+                console.log(num + '  AND  ' + index)
             })
             // console.log(this.$refs.childCard)
         },
         afterMatching() {
             let index1 = this.selectingCard.matchedCard.indexOf(this.selectingCard.firstCard.position)
             let index2 = 0
-            console.log(index1 + " & " + index2)
             console.log(this.selectingCard.matchedCard)
             if (this.selectingCard.firstCard.cardImg == this.selectingCard.secondCard.cardImg) {
                 this.score++
@@ -179,12 +179,9 @@ export default {
             this.selectingCard.secondCard.cardImg = ''
             this.selectingCard.secondCard.position = -1
             this.times = 0
-            // this.selectingCard.matchedCard = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
         },
         shuffle() {
-            console.log(this.cardList)
             this.cardList = _.shuffle(this.cardList)
-            console.log(this.cardList)
         }
     },
     beforeMount: function () {
@@ -224,7 +221,7 @@ export default {
     }
     @media screen and (min-width: 1600px){
         #card{
-            height: 200px;
+            height: 190px;
             width: auto;
         }  
     }
